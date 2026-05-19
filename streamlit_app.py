@@ -3,6 +3,7 @@ import streamlit as st
 import os
 #from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
+import requests 
 
 
 # Write directly to the app
@@ -36,6 +37,9 @@ if ingredients_list :
 
     for fruit_choosen in ingredients_list:
         ingredients_string+=fruit_choosen + ''
+        url = "https://my.smoothiefroot.com/api/fruit/watermelon".strip()
+        response = requests.get(url)
+        sf_df=st.dataframe(data=response.json(),use_container_width=True)
 
     st.write(ingredients_string)
 
@@ -55,7 +59,5 @@ if ingredients_list :
         st.success(f'Your Smoothie is ordered, {name_on_order}!', icon="✅")
 
 
-import requests  
-url = "https://my.smoothiefroot.com/api/fruit/watermelon".strip()
-response = requests.get(url)
-sf_df=st.dataframe(data=response.json(),use_container_width=True)
+ 
+
